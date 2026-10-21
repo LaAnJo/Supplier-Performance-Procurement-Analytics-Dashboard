@@ -89,15 +89,6 @@ sqlite3 procurement_analytics.sqlite < sql/analytics_queries.sql
 
 Queries provide modeled supplier scorecards, procurement spend trends, open/partial PO action queues, category spend, hypothetical 5% top-supplier negotiation savings and genuine inventory reorder risks.
 
-## Power BI
-
-Read [Power BI dashboard build guide](powerbi/BUILD_GUIDE.md) and [DAX measures](powerbi/measures.dax). Create a star schema from `FactPO`, `FactInventory`, `DimSupplier`, `DimProduct`, `DimDate`. Import the generated CSVs; follow the exact visual placements and reconcile against `outputs/kpi_summary.json`.
-
-**No native `.pbix` is included** because Power BI Desktop is needed to author/save that file. The image above is a **Python-rendered chart preview**, not a screenshot of a working Power BI report.
-
-## Excel
-
-See `reports/Procurement_Analytics_Workbook.xlsx` for a polished executive KPI summary, supplier scorecard formulas, monthly trends, inventory review lines and data-quality/assumption notes. It captures the current pipeline outputs and is not a live Power BI connection.
 
 ## KPI definitions
 

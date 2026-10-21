@@ -1,0 +1,19 @@
+{
+  "scenario_label": "ALL PROCUREMENT KPIS ARE SIMULATED / DEMONSTRATION ONLY",
+  "data_as_of": "2025-03-31",
+  "observed_inventory_records": 990,
+  "observed_supplier_names": 350,
+  "observed_below_reorder_lines": 455,
+  "observed_non_discontinued_reorder_lines": 292,
+  "observed_stock_value_at_list_price_proxy_usd": 332654.71,
+  "simulated_po_count": 2990,
+  "simulated_order_value_usd": 912896.42,
+  "simulated_otif_percent": 59.5,
+  "simulated_on_time_percent": 68.63,
+  "simulated_unit_fill_percent": 91.15,
+  "simulated_open_po_count": 171,
+  "simulated_top_10_spend_share_percent": 15.67,
+  "hypothetical_5pct_top10_negotiation_savings_usd": 7153.66,
+  "savings_assumption": "5% negotiated cost reduction on modeled ordered value for the 10 highest modeled-spend suppliers; NOT realized savings.",
+  "supplier_scorecard_risk_note": "Risk_Band thresholds are illustrative (High <65%, Medium <85%, Low >=85% OTIF), not validated operational policy."
+}

@@ -1,0 +1,13 @@
+{
+  "source_rows": 990,
+  "distinct_supplier_names": 350,
+  "distinct_source_supplier_ids": 990,
+  "missing_category_rows": 1,
+  "date_received_before_last_order_rows": 514,
+  "price_parse_failed": 0,
+  "duplicate_product_ids": 0,
+  "supplier_names_with_multiple_original_ids": 272,
+  "date_quality_note": "Date_Received and Last_Order_Date are not confirmed as paired PO events; no real delivery lead time or on-time KPI is inferred.",
+  "identifier_quality_note": "Source Supplier_ID varies by row. Supplier_Key is derived from Supplier_Name for illustrative grouping only.",
+  "percentage_quality_note": "The ambiguous percentage column is carried through unchanged and not used as a KPI."
+}

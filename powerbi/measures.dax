@@ -1,0 +1,84 @@
+-- POWER BI DAX MEASURES | EVERY PO METRIC IS SIMULATED / DEMONSTRATION ONLY.
+-- Rename imported CSVs in Power BI:
+-- purchase_orders_SIMULATED -> FactPO
+-- inventory_clean -> FactInventory
+-- dim_supplier -> DimSupplier
+-- dim_product -> DimProduct
+-- After loading FactPO, set [Order_Date], [Promised_Date] and [Receipt_Date] to Date.
+-- Set FactInventory[Below_Reorder_Level] to True/False.
+
+-- Modeling calendar; create using Modeling > New table
+DimDate =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2024, 2, 25 ), DATE ( 2025, 3, 31 ) ),
+    "Year", YEAR ( [Date] ),
+    "YearMonth", FORMAT ( [Date], "yyyy-MM" ),
+    "MonthNumber", MONTH ( [Date] ),
+    "MonthName", FORMAT ( [Date], "MMM" )
+)
+
+-- Modeling > New measure; create each definition separately.
+Simulated PO Count = COUNTROWS ( FactPO )
+
+Modeled Purchase Value = SUM ( FactPO[Ordered_Value_Model_USD] )
+
+Modeled Received Value = SUM ( FactPO[Received_Value_Model_USD] )
+
+Simulated On Time % =
+DIVIDE ( SUM ( FactPO[On_Time_Flag] ), [Simulated PO Count] )
+
+Simulated In Full % =
+DIVIDE ( SUM ( FactPO[In_Full_Flag] ), [Simulated PO Count] )
+
+Simulated OTIF % =
+DIVIDE ( SUM ( FactPO[OTIF_Flag] ), [Simulated PO Count] )
+
+Simulated Unit Fill % =
+DIVIDE ( SUM ( FactPO[Received_Qty] ), SUM ( FactPO[Ordered_Qty] ) )
+
+Simulated Open POs =
+CALCULATE ( [Simulated PO Count], FactPO[Fulfillment_Status] = "Open" )
+
+Simulated Late POs = SUM ( FactPO[Late_Flag] )
+
+Modeled Unreceived Value =
+SUMX (
+    FactPO,
+    ( FactPO[Ordered_Qty] - FactPO[Received_Qty] ) * FactPO[Unit_Cost_Model_USD]
+)
+
+Observed Inventory Lines = COUNTROWS ( FactInventory )
+
+Observed Low Stock Lines =
+CALCULATE (
+    COUNTROWS ( FactInventory ),
+    FactInventory[Below_Reorder_Level] = TRUE (),
+    FactInventory[Status] <> "Discontinued"
+)
+
+Observed Inventory Value at List Price =
+SUM ( FactInventory[Inventory_Value_Price_Proxy_USD] )
+
+Simulated Risk Band =
+IF (
+    [Simulated PO Count] < 5,
+    "Insufficient volume",
+    SWITCH (
+        TRUE (),
+        [Simulated OTIF %] < 0.65, "High",
+        [Simulated OTIF %] < 0.85, "Medium",
+        "Low"
+    )
+)
+
+-- This measure applies the scenario discount to the 10 highest spend suppliers
+-- in the active filter context. NOT realized savings.
+Hypothetical 5% Top10 Savings =
+VAR SupplierValues =
+    ADDCOLUMNS (
+        ALLSELECTED ( DimSupplier[Supplier_Key] ),
+        "SupplierSpend", [Modeled Purchase Value]
+    )
+VAR Top10Suppliers = TOPN ( 10, SupplierValues, [SupplierSpend], DESC )
+RETURN
+    SUMX ( Top10Suppliers, [SupplierSpend] ) * 0.05

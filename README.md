@@ -110,8 +110,3 @@ See `reports/Procurement_Analytics_Workbook.xlsx` for a polished executive KPI s
 - **Savings scenario** = 5% × simulated order value among the 10 suppliers with the highest simulated commitments, not realized savings.
 - **Supplier risk** = illustrative OTIF rule only where at least 5 modeled POs; high below 65%, medium 65–under 85%, low ≥85%.
 
-## Interview-safe project description
-
-> Built an end-to-end supplier procurement **analytics simulation**, integrating a 990-row grocery inventory source with 2,990 transparently simulated purchase orders. Developed Python ETL, SQLite supplier scorecards, Power BI-compatible DAX measures, Excel reports, and an interactive Streamlit dashboard for modeled OTIF, unit fill, procurement commitments and negotiation scenarios. Added provenance and data-quality checks to distinguish observed inventory insights from hypothetical supplier performance.
-
-The project is a learning and portfolio artifact, **not a claim of measured improvement at a real company**.
